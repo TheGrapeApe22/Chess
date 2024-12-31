@@ -1,14 +1,14 @@
 CMakeFiles/chess.dir/src/boardstates.cpp.obj: \
- C:\Users\rohan\OneDrive\Documents\codee\cpp\chess\src\boardstates.cpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/boardstates.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Config.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Clock.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Export.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Time.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Err.hpp \
+ C:\Users\rohan\OneDrive\Documents\GitHub\Chess\chess\src\boardstates.cpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/boardstates.h \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Config.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Clock.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Export.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Time.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Err.hpp \
  C:/msys64/ucrt64/include/c++/13.2.0/ostream \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/13.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -140,15 +140,15 @@ CMakeFiles/chess.dir/src/boardstates.cpp.obj: \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/locale_facets.tcc \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/basic_ios.tcc \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/ostream.tcc \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/FileInputStream.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/InputStream.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/NonCopyable.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Lock.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/MemoryInputStream.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Mutex.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Sleep.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/String.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Utf.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/FileInputStream.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/InputStream.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/NonCopyable.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Lock.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/MemoryInputStream.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Mutex.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Sleep.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/String.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Utf.hpp \
  C:/msys64/ucrt64/include/c++/13.2.0/algorithm \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_algo.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/algorithmfwd.h \
@@ -165,63 +165,63 @@ CMakeFiles/chess.dir/src/boardstates.cpp.obj: \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/codecvt.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/locale_facets_nonio.tcc \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/locale_conv.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Utf.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Utf.inl \
  C:/msys64/ucrt64/include/c++/13.2.0/iterator \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stream_iterator.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/String.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Thread.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Thread.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/ThreadLocal.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/ThreadLocalPtr.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/ThreadLocalPtr.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Vector2.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Vector2.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Vector3.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/System/Vector3.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Clipboard.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Export.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Context.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/GlResource.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/ContextSettings.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Cursor.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Event.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Joystick.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Keyboard.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Mouse.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Sensor.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Touch.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/VideoMode.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/String.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Thread.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Thread.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/ThreadLocal.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/ThreadLocalPtr.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/ThreadLocalPtr.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Vector2.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Vector2.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Vector3.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/System/Vector3.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Clipboard.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Export.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Context.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/GlResource.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/ContextSettings.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Cursor.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Event.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Joystick.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Keyboard.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Mouse.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Sensor.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Touch.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/VideoMode.hpp \
  C:/msys64/ucrt64/include/c++/13.2.0/vector \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_uninitialized.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_vector.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_bvector.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/vector.tcc \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Window.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/WindowBase.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/Vulkan.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/WindowHandle.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Window.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/WindowBase.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/Vulkan.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/WindowHandle.hpp \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stdint.h \
  C:/msys64/ucrt64/include/stdint.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Window/WindowStyle.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/BlendMode.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Export.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/CircleShape.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Shape.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Drawable.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/RenderStates.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Transform.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Rect.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Rect.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Transformable.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/VertexArray.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Vertex.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Color.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/PrimitiveType.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/ConvexShape.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Font.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Glyph.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Texture.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Image.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Window/WindowStyle.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/BlendMode.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Export.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/CircleShape.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Shape.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Drawable.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/RenderStates.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Transform.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Rect.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Rect.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Transformable.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/VertexArray.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Vertex.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Color.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/PrimitiveType.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/ConvexShape.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Font.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Glyph.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Texture.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Image.hpp \
  C:/msys64/ucrt64/include/c++/13.2.0/map \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_tree.h \
  C:/msys64/ucrt64/include/c++/13.2.0/ext/aligned_buffer.h \
@@ -229,20 +229,20 @@ CMakeFiles/chess.dir/src/boardstates.cpp.obj: \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_map.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_multimap.h \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/erase_if.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/RectangleShape.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/RenderTarget.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/View.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/RenderTexture.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/RenderWindow.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Shader.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Glsl.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Glsl.inl \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Sprite.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/Text.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/SFML/Graphics/VertexBuffer.hpp \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/pieces.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/board_runner.h \
- C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include/settings.h \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/RectangleShape.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/RenderTarget.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/View.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/RenderTexture.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/RenderWindow.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Shader.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Glsl.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Glsl.inl \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Sprite.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/Text.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/SFML/Graphics/VertexBuffer.hpp \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/pieces.h \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/board_runner.h \
+ C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include/settings.h \
  C:/msys64/ucrt64/include/c++/13.2.0/stack \
  C:/msys64/ucrt64/include/c++/13.2.0/deque \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_deque.h \

@@ -59,7 +59,7 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/rohan/OneDrive/Documents/codee/cpp/chess/include"
+					"path" : "C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess/include"
 				}
 			],
 			"language" : "CXX",
@@ -87,17 +87,17 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\Users\\rohan\\OneDrive\\Documents\\codee\\cpp\\chess\\lib\\libsfml-graphics.a",
+				"fragment" : "C:\\Users\\rohan\\OneDrive\\Documents\\GitHub\\Chess\\chess\\lib\\libsfml-graphics.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\Users\\rohan\\OneDrive\\Documents\\codee\\cpp\\chess\\lib\\libsfml-window.a",
+				"fragment" : "C:\\Users\\rohan\\OneDrive\\Documents\\GitHub\\Chess\\chess\\lib\\libsfml-window.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\Users\\rohan\\OneDrive\\Documents\\codee\\cpp\\chess\\lib\\libsfml-system.a",
+				"fragment" : "C:\\Users\\rohan\\OneDrive\\Documents\\GitHub\\Chess\\chess\\lib\\libsfml-system.a",
 				"role" : "libraries"
 			},
 			{
