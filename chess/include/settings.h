@@ -5,8 +5,7 @@ constexpr bool goofyEnPassant = false;
 constexpr bool freedom = true;
 constexpr int stonkfish_depth = 3;
 
-// rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-// rnb1k3/pppBnpp1/8/4p3/4P3/8/PPPB1PPR/RN2K1N1 b Qq
+
 const std::string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 constexpr int square_size {128};

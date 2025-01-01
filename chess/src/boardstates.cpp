@@ -3,6 +3,7 @@
 #include <settings.h>
 #include <unordered_map>
 #include <stdio.h>
+#include <cmath>
 
 void Bd::loadFromFen (const std::string& fen) {
     int x = 0;
@@ -35,19 +36,15 @@ void Bd::loadFromFen (const std::string& fen) {
             while (fen[i] != ' ') {
                 switch (fen[i]) {
                     case 'K':
-                        castle_state[2] = true;
                         castle_state[0] = true;
-                        break;
-                    case 'k':
-                        castle_state[5] = true;
-                        castle_state[3] = true;
                         break;
                     case 'Q':
                         castle_state[1] = true;
-                        castle_state[0] = true;
+                        break;
+                    case 'k':
+                        castle_state[2] = true;
                         break;
                     case 'q':
-                        castle_state[4] = true;
                         castle_state[3] = true;
                         break;
                 }
@@ -80,10 +77,10 @@ std::string Bd::getFen () {
     output += " ";
     output += (isWhiteTurn ? "w" : "b");
     output += " ";
-    if (castle_state[2]) output += 'K';
+    if (castle_state[0]) output += 'K';
     if (castle_state[1]) output += 'Q';
-    if (castle_state[5]) output += 'k';
-    if (castle_state[4]) output += 'q';
+    if (castle_state[2]) output += 'k';
+    if (castle_state[3]) output += 'q';
 
     return output;
 }
@@ -139,12 +136,14 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
     }
     // castles
     if (lowerType == 'k' && startPos.x == 4) {
+        // kingside
         if (board[startPos.x+1][startPos.y] == ' ' && board[startPos.x+2][startPos.y] == ' ' && tolower(board[startPos.x+3][startPos.y]) == 'r') {
-            if (castle_state[5] && castle_state[3] && islower(type) || castle_state[2] && castle_state[0] && isupper(type))
+            if (castle_state[0] && isupper(type) || castle_state[2] && islower(type))
                 relative_moves.push_back(sf::Vector2i {2, 0});
         }
+        // queenside
         if (board[startPos.x-1][startPos.y] == ' ' && board[startPos.x-2][startPos.y] == ' ' && board[startPos.x-3][startPos.y] == ' ' && tolower(board[startPos.x-4][startPos.y]) == 'r') {
-            if (castle_state[4] && castle_state[3] && islower(type) || castle_state[1] && castle_state[0] && isupper(type))
+            if (castle_state[1] && isupper(type) || castle_state[3] && islower(type))
                 relative_moves.push_back(sf::Vector2i {-2, 0});
         }
     }
@@ -247,7 +246,7 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
             isCastle = true;
 
         // return legal endPos
-        out.push_back(Move {startPos, endPos, capture, isCastle, isEnPassant});
+        out.push_back(Move {startPos, endPos, capture, isCastle, isEnPassant, castle_state});
     }
 
     return std::move(out);
@@ -296,25 +295,24 @@ void Bd::makeMove (const Move& m) {
         }
 
         // disable castling
-        if (isupper(type)) {
-            castle_state[0] = false;
-        } else {
-            castle_state[3] = false;
-        }
+        castle_state.reset();
     }
     // disable castling
-    else if (tolower(type) == 'r') {
-        if (isupper(type) && start.y == 7) {
-            if (start.x == 0)
+    if (tolower(type) == 'r') {
+        if (m.start.x == 0) {
+            if (m.start.y == 0)
+                castle_state[3] = false;
+            if (m.start.y == 7)
                 castle_state[1] = false;
-            if (start.x == 7)
+        } else if (m.start.x == 7) {
+            if (m.start.y == 0)
                 castle_state[2] = false;
-        } else if (islower(type) && start.y == 0) {
-            if (start.x == 0)
-                castle_state[4] = false;
-            if (start.x == 7)
-                castle_state[5] = false;
+            if (m.start.y == 7)
+                castle_state[0] = false;
         }
+    }
+    else if (tolower(type) == 'k') {
+        
     }
 
     // remove piece from old square
@@ -336,21 +334,12 @@ void Bd::undoMove (const Move& m) {
         if (m.end.x - m.start.x == 2) {
             board[7][m.end.y] = isWhiteTurn ? 'R' : 'r';
             board[5][m.end.y] = ' ';
-            if (isWhiteTurn)
-                castle_state[2] = true;
-            else
-                castle_state[5] = true;
         } else {
             board[0][m.end.y] = isWhiteTurn ? 'R' : 'r';
             board[3][m.end.y] = ' ';
-            if (isWhiteTurn)
-                castle_state[1] = true;
-            else
-                castle_state[4] = true;
         }
-        if (isWhiteTurn) castle_state[0] = true;
-        else castle_state[3] = true;
     }
+    castle_state = m.prev_castle_state;
 }
 
 const std::unordered_map<char, float> piece_values = {
@@ -362,24 +351,31 @@ const std::unordered_map<char, float> piece_values = {
     {'q', 7},
     {'k', 100}
 };
-std::vector<float> row_values = {0.97, 0.99, 1.01, 1.03, 1.03, 1.01, 0.99, 0.97};
+std::vector<float> row_values = {0.98, 0.99, 1.00, 1.01, 1.01, 1.00, 0.99, 0.98};
 
-float Bd::quick_eval () const {
+float Bd::static_eval () const {
     float total = 0;
     for (int y = 0; y < 8; y++) {
         for (int x = 0; x < 8; x++) {
             char c = board[x][y];
+            char lower = tolower(c);
 
             if (c == ' ') continue;
             int multiplier = isupper(c) ? 1 : -1;
 
-            float value = piece_values.at(tolower(c));
+            float value = piece_values.at(lower);
 
             std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
+            
+            float mobility = moves.size();
+            mobility = sqrt(mobility) / piece_values.at(lower);
+            // haha hardcoding go brrr
+            if (lower == 'p' || lower == 'q') mobility *= 0.01f;
 
-            value += moves.size() * 0.01f * row_values[x] * row_values[y] / piece_values.at(tolower(c));
-
-            total += value * multiplier;
+            value += mobility * 0.01f * row_values[x] * row_values[y];
+            
+            value *= multiplier;
+            total += value;
         }
     }
     return total;
@@ -401,7 +397,7 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
         abort();
     }
 
-    if (depth <= 0) return MoveData {quick_eval()};
+    if (depth <= 0) return MoveData {static_eval()};
     
     int multiplier = isWhiteTurn ? 1 : -1;
     MoveData out {-200.f * multiplier};
@@ -462,15 +458,16 @@ void Bd::stonkfish () {
     numCalls = 0;
     numPruned = 0;
     
+    std::cout << "static eval: " << static_eval() << "\n";
+
     MoveData bestMove = minimax(stonkfish_depth, -1000, 1000);
-    
-    std::cout << numCalls << " calls, " << numPruned << " pruned: ";
+    std::cout << numCalls << " calls, " << numPruned << " pruned ";
     
     while (!bestMove.moveStack.empty()) {
         std::cout << "(" << getCoord(bestMove.moveStack.top().start) << ", "
             << getCoord(bestMove.moveStack.top().end) << ") ";
         bestMove.moveStack.pop();
     }
-    
+    std::cout << bestMove.eval;
     std::cout << std::endl;
 }

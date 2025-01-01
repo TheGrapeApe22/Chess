@@ -13,7 +13,7 @@ class Bd {
         char captured_piece = ' ';
         bool isCastle {};
         bool isEnPassant {};
-        std::bitset<6> castle_state;
+        std::bitset<4> prev_castle_state;
         inline bool operator== (const Bd::Move& other) const {
             return start == other.start
              && end == other.end;
@@ -29,9 +29,8 @@ class Bd {
     std::vector<std::vector<char>> board {8, std::vector(8, ' ')};
     bool isWhiteTurn {true};
     
-    // (0) white king didn't move, (1) Q rook didn't move, (2) K rook didn't move, 
-    // (3) black king didn't move, (4) q rook didn't move, (5) k rook didn't move, 
-    std::bitset<6> castle_state {"111111"};
+    // KQkq are possible
+    std::bitset<4> castle_state {"1111"};
     sf::Vector2i ep_pawn {-1, -1};
 
     // constructors
@@ -53,7 +52,7 @@ class Bd {
     void undoMove (const Move&);
     void print ();
     
-    float quick_eval () const;
+    float static_eval () const;
 
     // todo add const
     MoveData minimax (int depth, float alpha, float beta);
