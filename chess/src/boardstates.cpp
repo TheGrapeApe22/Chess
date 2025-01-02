@@ -95,7 +95,7 @@ void Bd::print () {
     std::cout << getFen() << "\n" << castle_state << "\n";
 }
 
-std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
+std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos, bool captures_only) const {
     std::vector<Move> out {};
 
     char type = board[startPos.x][startPos.y];
@@ -207,12 +207,15 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
         char capture = board[endPos.x][endPos.y];
         bool isCastle = false;
         bool isEnPassant = false;
+        bool isPromotion = false;
 
         // check if capturing same color
         if (capture != ' ') {
             if (isupper(capture) == isupper(type))
                 continue;
         }
+        // skip if there is no capture
+        if (captures_only && capture == ' ') continue;
 
         // filter pawn moves
         if (lowerType == 'p') {
@@ -241,15 +244,33 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
                     continue;
                 }
             }
+            // promotion
+            if (endPos.y == 0 || endPos.y == 7)
+                isPromotion = true;
         }
         if (lowerType == 'k' && abs(move.x) == 2)
             isCastle = true;
 
         // return legal endPos
-        out.push_back(Move {startPos, endPos, capture, isCastle, isEnPassant, castle_state});
+        out.push_back(Move {startPos, endPos, capture, castle_state, isCastle, isEnPassant, isPromotion});
     }
 
     return std::move(out);
+}
+
+std::vector<Bd::Move> Bd::getAllMoves (bool captures_only) const {
+    std::vector<Move> allMoves {};
+    for (int y = 0; y < 8; y++) {
+        for (int x = 0; x < 8; x++) {
+            char type = board[x][y];
+            if (type == ' ') continue;
+            if (isupper(type) != isWhiteTurn) continue;
+            
+            std::vector<Move> moves = getMoves(sf::Vector2i {x, y}, captures_only);
+            allMoves.insert(allMoves.end(), moves.begin(), moves.end());
+        }
+    }
+    return std::move(allMoves);
 }
 
 void Bd::makeMove (const Move& m) {
@@ -258,7 +279,11 @@ void Bd::makeMove (const Move& m) {
 
     char type = board[start.x][start.y];
     if (type == ' ') {
-        std::cout << "Not a piece: bd::makeMove" << std::endl;
+        std::cout << "Not a piece (bd::makeMove)" << std::endl;
+        return;
+    }
+    else if (m.isNullMove()) {
+        std::cout << "Null move (bd::makeMove)" << std::endl;
         return;
     }
 
@@ -312,7 +337,13 @@ void Bd::makeMove (const Move& m) {
         }
     }
     else if (tolower(type) == 'k') {
-        
+        if (type == 'K') {
+            castle_state[0] = false;
+            castle_state[1] = false;
+        } else {
+            castle_state[2] = false;
+            castle_state[3] = false;
+        }
     }
 
     // remove piece from old square
@@ -339,6 +370,8 @@ void Bd::undoMove (const Move& m) {
             board[3][m.end.y] = ' ';
         }
     }
+    if (m.isPromotion)
+        board[m.start.x][m.start.y] = isupper(board[m.start.x][m.start.y]) ? 'P' : 'p';
     castle_state = m.prev_castle_state;
 }
 
@@ -365,12 +398,12 @@ float Bd::static_eval () const {
 
             float value = piece_values.at(lower);
 
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
+            std::vector<Move> moves = getMoves(sf::Vector2i {x, y}, false);
             
             float mobility = moves.size();
             mobility = sqrt(mobility) / piece_values.at(lower);
             // haha hardcoding go brrr
-            if (lower == 'p' || lower == 'q') mobility *= 0.01f;
+            if (lower == 'p' || lower == 'q') mobility = 2;
 
             value += mobility * 0.01f * row_values[x] * row_values[y];
             
@@ -389,18 +422,43 @@ std::string getCoord(sf::Vector2i p) {
 
 int numCalls = 0;
 int numPruned = 0;
-Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
+int numCaptures = 0;
+
+Bd::MoveData Bd::minimax (int depth, float alpha, float beta, bool capture_only) {
     numCalls++;
+    if (capture_only) numCaptures++;
     
-    if (numCalls > 500000) {
+    if (numCalls > 1000000) {
         std::cout << "abortion\n";
-        abort();
+        return MoveData {static_eval()};
     }
 
-    if (depth <= 0) return MoveData {static_eval()};
-    
+    float inf = 200.f;
     int multiplier = isWhiteTurn ? 1 : -1;
-    MoveData out {-200.f * multiplier};
+
+    // depth limit reached
+    if (depth <= 0) {
+        // end search
+        if (capture_only) {
+            return MoveData {static_eval()};
+        }
+        else {
+            // search captures
+            MoveData captures = minimax(1, -1000, 1000, true);
+            float curr_eval = static_eval();
+
+            if (abs(captures.eval) == inf) { captures.eval = curr_eval; }
+            
+            // if (not capturing) > (capturing)
+            if ((curr_eval * multiplier) > (captures.eval * multiplier)) {
+                captures.eval = curr_eval;
+            }
+
+            return captures;
+        }
+    }
+    
+    MoveData out {-inf * multiplier};
     Move bestMove {};
 
     // for every piece
@@ -410,7 +468,7 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
             if (type == ' ') continue;
             if (isupper(type) != isWhiteTurn) continue;
             
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
+            std::vector<Move> moves = getMoves(sf::Vector2i {x, y}, capture_only);
 
             for (Move& move : moves) {
                 // check win
@@ -424,7 +482,7 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
                 makeMove(move);
 
                 // recursion + eval
-                MoveData child = minimax(depth - 1, alpha, beta);
+                MoveData child = minimax(depth - 1, alpha, beta, capture_only);
                 
                 if (child.eval * multiplier > out.eval * multiplier) {
                     out.eval = child.eval;
@@ -450,18 +508,21 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
         }
     }
     out.moveStack.push(bestMove);
-
+    if (abs(out.eval) == inf) {
+        out.eval = static_eval();
+    }
     return out;
 }
 
 void Bd::stonkfish () {
     numCalls = 0;
     numPruned = 0;
+    numCaptures = 0;
     
     std::cout << "static eval: " << static_eval() << "\n";
 
-    MoveData bestMove = minimax(stonkfish_depth, -1000, 1000);
-    std::cout << numCalls << " calls, " << numPruned << " pruned ";
+    MoveData bestMove = minimax(stonkfish_depth, -1000, 1000, false);
+    std::cout << numCalls << " calls, " << numPruned << " pruned, " << numCaptures << " captures, ";
     
     while (!bestMove.moveStack.empty()) {
         std::cout << "(" << getCoord(bestMove.moveStack.top().start) << ", "

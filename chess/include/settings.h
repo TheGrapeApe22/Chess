@@ -15,5 +15,3 @@ const sf::Vector2i board_shift {square_size*3/4, square_size*3/4};
 const std::string project_dir = "C:/Users/rohan/OneDrive/Documents/codee/cpp/chess";
 // const std::string project_dir = "../..";
 
-// add castle/en passant flags instead of k/j/r/q
-// make fen work with castled kings

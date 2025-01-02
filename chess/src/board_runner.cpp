@@ -116,7 +116,7 @@ namespace game {
                     if (numMoves % 2 == isupper(p->type) && !freedom) break;
 
                     // get legal moves
-                    legalMoves = current_board.getMoves(p->boardPos);
+                    legalMoves = current_board.getMoves(p->boardPos, false);
                     if (legalMoves.size() == 0) break;
 
                     selected_piece = p;
@@ -202,8 +202,10 @@ namespace game {
     }
     void stonkfishMove () {
         unselect();
-        Bd::MoveData bestMove = current_board.minimax(stonkfish_depth, -1000, 1000);
-        pushMove(bestMove.moveStack.top());
+        Bd::MoveData bestMove = current_board.minimax(stonkfish_depth, -1000, 1000, false);
+        if (!bestMove.moveStack.top().isNullMove()) {
+            pushMove(bestMove.moveStack.top());
+        }
     }
 
     void undoMove() {

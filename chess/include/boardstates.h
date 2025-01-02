@@ -11,13 +11,16 @@ class Bd {
         sf::Vector2i start {};
         sf::Vector2i end {};
         char captured_piece = ' ';
+        std::bitset<4> prev_castle_state;
         bool isCastle {};
         bool isEnPassant {};
-        std::bitset<4> prev_castle_state;
+        bool isPromotion {};
+        
         inline bool operator== (const Bd::Move& other) const {
             return start == other.start
              && end == other.end;
         }
+        bool isNullMove () const {return start.x == 0 && start.y == 0 && end.x == 0 && end.y == 0;}
     };
 
     struct MoveData {
@@ -44,7 +47,9 @@ class Bd {
     }*/
 
     // methods
-    std::vector<Move> getMoves (const sf::Vector2i&) const;
+    std::vector<Move> getMoves (const sf::Vector2i& startPos, bool captures_only) const;
+    std::vector<Bd::Move> Bd::getAllMoves (bool captures_only) const;
+    
     void loadFromFen (const std::string&);
     std::string getFen ();
     
@@ -54,8 +59,7 @@ class Bd {
     
     float static_eval () const;
 
-    // todo add const
-    MoveData minimax (int depth, float alpha, float beta);
+    MoveData minimax (int depth, float alpha, float beta, bool capture_only);
 
     void stonkfish ();
 
