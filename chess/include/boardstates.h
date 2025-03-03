@@ -48,7 +48,8 @@ class Bd {
 
     // methods
     std::vector<Move> getMoves (const sf::Vector2i& startPos, bool captures_only) const;
-    std::vector<Bd::Move> Bd::getAllMoves (bool captures_only) const;
+    std::vector<Move> getAllMoves (bool captures_only) const;
+    void sortMoves (std::vector<Move>& moves) const;
     
     void loadFromFen (const std::string&);
     std::string getFen ();

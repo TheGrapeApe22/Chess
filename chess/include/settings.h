@@ -4,9 +4,10 @@
 constexpr bool goofyEnPassant = false;
 constexpr bool freedom = true;
 constexpr int stonkfish_depth = 3;
-
+constexpr int capture_depth = 2;
 
 const std::string starting_fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+// const std::string starting_fen = "4k3/8/4K1R1/8/8/8/8/8 w";
 
 constexpr int square_size {128};
 constexpr float circle_scale {0.125};

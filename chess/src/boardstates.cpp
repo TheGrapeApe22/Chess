@@ -273,6 +273,10 @@ std::vector<Bd::Move> Bd::getAllMoves (bool captures_only) const {
     return std::move(allMoves);
 }
 
+void Bd::sortMoves (std::vector<Bd::Move>& moves) const {
+
+};
+
 void Bd::makeMove (const Move& m) {
     const sf::Vector2i& start = m.start;
     const sf::Vector2i& end = m.end;
@@ -359,7 +363,7 @@ void Bd::undoMove (const Move& m) {
     
     if (m.isEnPassant) {
         ep_pawn = {m.end.x, m.start.y};
-        board[ep_pawn.x][ep_pawn.y] = isWhiteTurn ? 'p' : 'R';
+        board[ep_pawn.x][ep_pawn.y] = isWhiteTurn ? 'p' : 'P';
     }
     if (m.isCastle) {
         if (m.end.x - m.start.x == 2) {
@@ -404,6 +408,7 @@ float Bd::static_eval () const {
             mobility = sqrt(mobility) / piece_values.at(lower);
             // haha hardcoding go brrr
             if (lower == 'p' || lower == 'q') mobility = 2;
+            if (lower == 'k') mobility = 0;
 
             value += mobility * 0.01f * row_values[x] * row_values[y];
             
@@ -433,7 +438,7 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta, bool capture_only)
         return MoveData {static_eval()};
     }
 
-    float inf = 200.f;
+    float inf = 1000.f;
     int multiplier = isWhiteTurn ? 1 : -1;
 
     // depth limit reached
@@ -444,7 +449,7 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta, bool capture_only)
         }
         else {
             // search captures
-            MoveData captures = minimax(1, -1000, 1000, true);
+            MoveData captures = minimax(capture_depth, -1000, 1000, true);
             float curr_eval = static_eval();
 
             if (abs(captures.eval) == inf) { captures.eval = curr_eval; }
@@ -461,52 +466,45 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta, bool capture_only)
     MoveData out {-inf * multiplier};
     Move bestMove {};
 
-    // for every piece
-    for (int y = 0; y < 8; y++) {
-        for (int x = 0; x < 8; x++) {
-            char type = board[x][y];
-            if (type == ' ') continue;
-            if (isupper(type) != isWhiteTurn) continue;
-            
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y}, capture_only);
+    
+    std::vector<Move> moves = getAllMoves(capture_only);
 
-            for (Move& move : moves) {
-                // check win
-                if (tolower(move.captured_piece) == 'k') {
-                    out.moveStack.push(move);
-                    out.eval = -999.f * (isupper(move.captured_piece) ? 1 : -1);
-                    return out;
-                }
+    for (Move& move : moves) {
+        // check win
+        if (tolower(move.captured_piece) == 'k') {
+            out.moveStack.push(move);
+            out.eval = -999.f * (isupper(move.captured_piece) ? 1 : -1);
+            return out;
+        }
 
-                // move
-                makeMove(move);
+        // move
+        makeMove(move);
 
-                // recursion + eval
-                MoveData child = minimax(depth - 1, alpha, beta, capture_only);
-                
-                if (child.eval * multiplier > out.eval * multiplier) {
-                    out.eval = child.eval;
-                    out = child;
-                    bestMove = move;
-                }
+        // recursion + eval
+        MoveData child = minimax(depth - 1, alpha, beta, capture_only);
+        
+        if (child.eval * multiplier > out.eval * multiplier) {
+            out.eval = child.eval;
+            out = child;
+            bestMove = move;
+        }
 
-                undoMove(move);
+        undoMove(move);
 
-                // alpha-beta pruning
-                if (isWhiteTurn) {
-                    alpha = std::max(alpha, out.eval);
-                }
-                else {
-                    beta = std::min(beta, out.eval);
-                }
-                // prune if opponent will choose a different eval over this one
-                if (alpha >= beta) {
-                    numPruned++;
-                    break;
-                }
-            }
+        // alpha-beta pruning
+        if (isWhiteTurn) {
+            alpha = std::max(alpha, out.eval);
+        }
+        else {
+            beta = std::min(beta, out.eval);
+        }
+        // prune if opponent will choose a different eval over this one
+        if (alpha >= beta) {
+            numPruned++;
+            break;
         }
     }
+
     out.moveStack.push(bestMove);
     if (abs(out.eval) == inf) {
         out.eval = static_eval();
