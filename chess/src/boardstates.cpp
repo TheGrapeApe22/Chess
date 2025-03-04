@@ -3,7 +3,6 @@
 #include <settings.h>
 #include <unordered_map>
 #include <stdio.h>
-#include <cmath>
 
 void Bd::loadFromFen (const std::string& fen) {
     int x = 0;
@@ -36,15 +35,19 @@ void Bd::loadFromFen (const std::string& fen) {
             while (fen[i] != ' ') {
                 switch (fen[i]) {
                     case 'K':
+                        castle_state[2] = true;
                         castle_state[0] = true;
+                        break;
+                    case 'k':
+                        castle_state[5] = true;
+                        castle_state[3] = true;
                         break;
                     case 'Q':
                         castle_state[1] = true;
-                        break;
-                    case 'k':
-                        castle_state[2] = true;
+                        castle_state[0] = true;
                         break;
                     case 'q':
+                        castle_state[4] = true;
                         castle_state[3] = true;
                         break;
                 }
@@ -77,10 +80,10 @@ std::string Bd::getFen () {
     output += " ";
     output += (isWhiteTurn ? "w" : "b");
     output += " ";
-    if (castle_state[0]) output += 'K';
+    if (castle_state[2]) output += 'K';
     if (castle_state[1]) output += 'Q';
-    if (castle_state[2]) output += 'k';
-    if (castle_state[3]) output += 'q';
+    if (castle_state[5]) output += 'k';
+    if (castle_state[4]) output += 'q';
 
     return output;
 }
@@ -95,7 +98,7 @@ void Bd::print () {
     std::cout << getFen() << "\n" << castle_state << "\n";
 }
 
-std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos, bool captures_only) const {
+std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
     std::vector<Move> out {};
 
     char type = board[startPos.x][startPos.y];
@@ -136,14 +139,12 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos, bool captures_
     }
     // castles
     if (lowerType == 'k' && startPos.x == 4) {
-        // kingside
         if (board[startPos.x+1][startPos.y] == ' ' && board[startPos.x+2][startPos.y] == ' ' && tolower(board[startPos.x+3][startPos.y]) == 'r') {
-            if (castle_state[0] && isupper(type) || castle_state[2] && islower(type))
+            if (castle_state[5] && castle_state[3] && islower(type) || castle_state[2] && castle_state[0] && isupper(type))
                 relative_moves.push_back(sf::Vector2i {2, 0});
         }
-        // queenside
         if (board[startPos.x-1][startPos.y] == ' ' && board[startPos.x-2][startPos.y] == ' ' && board[startPos.x-3][startPos.y] == ' ' && tolower(board[startPos.x-4][startPos.y]) == 'r') {
-            if (castle_state[1] && isupper(type) || castle_state[3] && islower(type))
+            if (castle_state[4] && castle_state[3] && islower(type) || castle_state[1] && castle_state[0] && isupper(type))
                 relative_moves.push_back(sf::Vector2i {-2, 0});
         }
     }
@@ -214,11 +215,12 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos, bool captures_
             if (isupper(capture) == isupper(type))
                 continue;
         }
-        // skip if there is no capture
-        if (captures_only && capture == ' ') continue;
 
         // filter pawn moves
         if (lowerType == 'p') {
+            // promotion
+            if (endPos.y == 0 || endPos.y == 7)
+                isPromotion = true;
             // if move is diagonal and there is no piece to capture
             if (abs(move.x) == 1) {
                 // check en passant
@@ -244,50 +246,41 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos, bool captures_
                     continue;
                 }
             }
-            // promotion
-            if (endPos.y == 0 || endPos.y == 7)
-                isPromotion = true;
         }
         if (lowerType == 'k' && abs(move.x) == 2)
             isCastle = true;
 
         // return legal endPos
-        out.push_back(Move {startPos, endPos, capture, castle_state, isCastle, isEnPassant, isPromotion});
+        out.push_back(Move {startPos, endPos, capture, isCastle, isEnPassant, isPromotion});
     }
 
     return std::move(out);
 }
 
-std::vector<Bd::Move> Bd::getAllMoves (bool captures_only) const {
-    std::vector<Move> allMoves {};
+std::vector<Bd::Move> Bd::getAllMoves () const {
+    std::vector<Move> out {};
     for (int y = 0; y < 8; y++) {
         for (int x = 0; x < 8; x++) {
-            char type = board[x][y];
-            if (type == ' ') continue;
-            if (isupper(type) != isWhiteTurn) continue;
-            
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y}, captures_only);
-            allMoves.insert(allMoves.end(), moves.begin(), moves.end());
+            char c = board[x][y];
+            if (c == ' ') continue;
+            if (isupper(c) != isWhiteTurn) continue;
+            // todo 3/4/2025 getallmoves
         }
     }
-    return std::move(allMoves);
+    return out;
 }
-
-void Bd::sortMoves (std::vector<Bd::Move>& moves) const {
-
-};
 
 void Bd::makeMove (const Move& m) {
     const sf::Vector2i& start = m.start;
     const sf::Vector2i& end = m.end;
 
     char type = board[start.x][start.y];
-    if (type == ' ') {
-        std::cout << "Not a piece (bd::makeMove)" << std::endl;
+    if (m.start.x == 0 && m.start.y == 0 && m.end.x == 0 && m.end.y == 0) {
+        std::cout << "null move, bd::makeMove" << std::endl;
         return;
     }
-    else if (m.isNullMove()) {
-        std::cout << "Null move (bd::makeMove)" << std::endl;
+    if (type == ' ') {
+        std::cout << "Not a piece, bd::makeMove" << std::endl;
         return;
     }
 
@@ -324,29 +317,24 @@ void Bd::makeMove (const Move& m) {
         }
 
         // disable castling
-        castle_state.reset();
-    }
-    // disable castling
-    if (tolower(type) == 'r') {
-        if (m.start.x == 0) {
-            if (m.start.y == 0)
-                castle_state[3] = false;
-            if (m.start.y == 7)
-                castle_state[1] = false;
-        } else if (m.start.x == 7) {
-            if (m.start.y == 0)
-                castle_state[2] = false;
-            if (m.start.y == 7)
-                castle_state[0] = false;
+        if (isupper(type)) {
+            castle_state[0] = false;
+        } else {
+            castle_state[3] = false;
         }
     }
-    else if (tolower(type) == 'k') {
-        if (type == 'K') {
-            castle_state[0] = false;
-            castle_state[1] = false;
-        } else {
-            castle_state[2] = false;
-            castle_state[3] = false;
+    // disable castling
+    else if (tolower(type) == 'r') {
+        if (isupper(type) && start.y == 7) {
+            if (start.x == 0)
+                castle_state[1] = false;
+            if (start.x == 7)
+                castle_state[2] = false;
+        } else if (islower(type) && start.y == 0) {
+            if (start.x == 0)
+                castle_state[4] = false;
+            if (start.x == 7)
+                castle_state[5] = false;
         }
     }
 
@@ -356,11 +344,18 @@ void Bd::makeMove (const Move& m) {
     isWhiteTurn = !isWhiteTurn;
 }
 void Bd::undoMove (const Move& m) {
+    if (m.start.x == 0 && m.start.y == 0 && m.end.x == 0 && m.end.y == 0) {
+        std::cout << "null move, bd::undoMove" << std::endl;
+        return;
+    }
+
     board[m.start.x][m.start.y] = board[m.end.x][m.end.y];
     board[m.end.x][m.end.y] = m.captured_piece;
 
     isWhiteTurn = !isWhiteTurn;
-    
+    if (m.isPromotion) {
+        board[m.start.x][m.start.y] = isWhiteTurn ? 'P' : 'p';
+    }
     if (m.isEnPassant) {
         ep_pawn = {m.end.x, m.start.y};
         board[ep_pawn.x][ep_pawn.y] = isWhiteTurn ? 'p' : 'P';
@@ -369,14 +364,21 @@ void Bd::undoMove (const Move& m) {
         if (m.end.x - m.start.x == 2) {
             board[7][m.end.y] = isWhiteTurn ? 'R' : 'r';
             board[5][m.end.y] = ' ';
+            if (isWhiteTurn)
+                castle_state[2] = true;
+            else
+                castle_state[5] = true;
         } else {
             board[0][m.end.y] = isWhiteTurn ? 'R' : 'r';
             board[3][m.end.y] = ' ';
+            if (isWhiteTurn)
+                castle_state[1] = true;
+            else
+                castle_state[4] = true;
         }
+        if (isWhiteTurn) castle_state[0] = true;
+        else castle_state[3] = true;
     }
-    if (m.isPromotion)
-        board[m.start.x][m.start.y] = isupper(board[m.start.x][m.start.y]) ? 'P' : 'p';
-    castle_state = m.prev_castle_state;
 }
 
 const std::unordered_map<char, float> piece_values = {
@@ -384,39 +386,40 @@ const std::unordered_map<char, float> piece_values = {
     {'n', 3},
     {'b', 3},
     {'r', 5},
-    {'s', 5},
     {'q', 7},
     {'k', 100}
 };
-std::vector<float> row_values = {0.98, 0.99, 1.00, 1.01, 1.01, 1.00, 0.99, 0.98};
 
 float Bd::static_eval () const {
-    float total = 0;
+    float eval = 0;
     for (int y = 0; y < 8; y++) {
         for (int x = 0; x < 8; x++) {
             char c = board[x][y];
-            char lower = tolower(c);
 
             if (c == ' ') continue;
             int multiplier = isupper(c) ? 1 : -1;
+            std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
 
-            float value = piece_values.at(lower);
+            // big weight
+            float value = piece_values.at(tolower(c));
 
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y}, false);
-            
-            float mobility = moves.size();
-            mobility = sqrt(mobility) / piece_values.at(lower);
-            // haha hardcoding go brrr
-            if (lower == 'p' || lower == 'q') mobility = 2;
-            if (lower == 'k') mobility = 0;
+            // debug std::cout << c << " " << moves.size() * piece_weights.at(tolower(c)) * multiplier << "\n";
 
-            value += mobility * 0.01f * row_values[x] * row_values[y];
-            
-            value *= multiplier;
-            total += value;
+            // small weight: count available moves
+            value += 0.01f * std::min(moves.size() * piece_weights.at(tolower(c)), 5.f);
+            // small weight: count distance from promotion
+            if (tolower(c) == 'p')
+                value += 0.005f * (isupper(c) ? (7-y) : (y));
+            if (tolower(c) != 'k' && tolower(c) != 'r') {
+                if ((isupper(c) && y == 7) || (islower(c) && y == 0))
+                    value -= 0.01;
+            }
+
+            eval += value * multiplier;
         }
     }
-    return total;
+    eval += stonkfish_randomization * (std::rand() % 10) / 10;
+    return eval;
 }
 std::string getCoord(sf::Vector2i p) {
     std::string out = "";
@@ -427,106 +430,84 @@ std::string getCoord(sf::Vector2i p) {
 
 int numCalls = 0;
 int numPruned = 0;
-int numCaptures = 0;
-
-Bd::MoveData Bd::minimax (int depth, float alpha, float beta, bool capture_only) {
+Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
     numCalls++;
-    if (capture_only) numCaptures++;
     
-    if (numCalls > 1000000) {
-        std::cout << "abortion\n";
-        return MoveData {static_eval()};
+    if (numCalls > max_stonkfish_calls) {
+        std::cout << "ABORTION" << std::endl;
+        // abort();
+        return MoveData {-999.f * (isWhiteTurn ? -1 : 1)};
     }
 
-    float inf = 1000.f;
+    if (depth <= 0) return MoveData {static_eval()};
+    
     int multiplier = isWhiteTurn ? 1 : -1;
-
-    // depth limit reached
-    if (depth <= 0) {
-        // end search
-        if (capture_only) {
-            return MoveData {static_eval()};
-        }
-        else {
-            // search captures
-            MoveData captures = minimax(capture_depth, -1000, 1000, true);
-            float curr_eval = static_eval();
-
-            if (abs(captures.eval) == inf) { captures.eval = curr_eval; }
-            
-            // if (not capturing) > (capturing)
-            if ((curr_eval * multiplier) > (captures.eval * multiplier)) {
-                captures.eval = curr_eval;
-            }
-
-            return captures;
-        }
-    }
-    
-    MoveData out {-inf * multiplier};
+    MoveData out {-200.f * multiplier};
     Move bestMove {};
 
-    
-    std::vector<Move> moves = getAllMoves(capture_only);
+    // for every piece
+    for (int y = 0; y < 8; y++) {
+        for (int x = 0; x < 8; x++) {
+            char type = board[x][y];
+            if (type == ' ') continue;
+            if (isupper(type) != isWhiteTurn) continue;
+            
+            std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
 
-    for (Move& move : moves) {
-        // check win
-        if (tolower(move.captured_piece) == 'k') {
-            out.moveStack.push(move);
-            out.eval = -999.f * (isupper(move.captured_piece) ? 1 : -1);
-            return out;
-        }
+            for (Move& move : moves) {
+                // check win
+                if (tolower(move.captured_piece) == 'k') {
+                    out.moveStack.push(move);
+                    out.eval = -999.f * (isupper(move.captured_piece) ? 1 : -1);
+                    return out;
+                }
 
-        // move
-        makeMove(move);
+                // move
+                makeMove(move);
 
-        // recursion + eval
-        MoveData child = minimax(depth - 1, alpha, beta, capture_only);
-        
-        if (child.eval * multiplier > out.eval * multiplier) {
-            out.eval = child.eval;
-            out = child;
-            bestMove = move;
-        }
+                // recursion + eval
+                MoveData child = minimax(depth - 1, alpha, beta);
+                
+                if (child.eval * multiplier > out.eval * multiplier) {
+                    out.eval = child.eval;
+                    out = child;
+                    bestMove = move;
+                }
 
-        undoMove(move);
+                undoMove(move);
 
-        // alpha-beta pruning
-        if (isWhiteTurn) {
-            alpha = std::max(alpha, out.eval);
-        }
-        else {
-            beta = std::min(beta, out.eval);
-        }
-        // prune if opponent will choose a different eval over this one
-        if (alpha >= beta) {
-            numPruned++;
-            break;
+                // alpha-beta pruning
+                if (isWhiteTurn) {
+                    alpha = std::max(alpha, out.eval);
+                }
+                else {
+                    beta = std::min(beta, out.eval);
+                }
+                // prune if white reached a good position (alpha) but black can force a worse one (beta)
+                if (alpha >= beta) {
+                    numPruned++;
+                    break;
+                }
+            }
         }
     }
-
     out.moveStack.push(bestMove);
-    if (abs(out.eval) == inf) {
-        out.eval = static_eval();
-    }
+
     return out;
 }
 
 void Bd::stonkfish () {
     numCalls = 0;
     numPruned = 0;
-    numCaptures = 0;
     
-    std::cout << "static eval: " << static_eval() << "\n";
-
-    MoveData bestMove = minimax(stonkfish_depth, -1000, 1000, false);
-    std::cout << numCalls << " calls, " << numPruned << " pruned, " << numCaptures << " captures, ";
+    MoveData bestMove = minimax(stonkfish_depth, -999, 999);
+    
+    std::cout << numCalls << " calls, " << numPruned << " pruned: ";
     
     while (!bestMove.moveStack.empty()) {
         std::cout << "(" << getCoord(bestMove.moveStack.top().start) << ", "
             << getCoord(bestMove.moveStack.top().end) << ") ";
         bestMove.moveStack.pop();
     }
-    std::cout << bestMove.eval;
-    std::cout << std::endl;
+    std::cout << "\ndeep eval: " << bestMove.eval << std::endl;
 }

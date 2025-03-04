@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <pieces.h>
-#include <board_runner.h>
+#include <board_ui.h>
 #include <settings.h>
 #include <iostream>
 

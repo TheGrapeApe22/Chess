@@ -18,4 +18,5 @@ namespace game {
     void undoMove ();
     void redoMove ();
     void debug ();
+    void debug2 ();
 }

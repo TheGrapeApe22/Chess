@@ -1,10 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <board_runner.h>
+#include <board_ui.h>
 #include <boardstates.h>
 #include <settings.h>
 
+int stonkfish_depth = 3;
+
 int main() {
+
     sf::RenderWindow window (
         sf::VideoMode(square_size * 8 + 2*board_shift.x, square_size * 8 + 2*board_shift.y),
         "Segmentation fault (core dumped)" // nothing to see here
@@ -46,6 +49,17 @@ int main() {
                     case sf::Keyboard::D:
                         // debug
                         game::debug();
+                        break;
+                    case sf::Keyboard::E:
+                        game::debug2();
+                        break;
+                    case sf::Keyboard::Num3:
+                        stonkfish_depth = 3;
+                        std::cout << "Stonkfish depth is now " << stonkfish_depth << std::endl;
+                        break;
+                    case sf::Keyboard::Num4:
+                        stonkfish_depth = 4;
+                        std::cout << "Stonkfish depth is now " << stonkfish_depth << std::endl;
                         break;
                     case sf::Keyboard::Space:
                         game::stonkfishMove();

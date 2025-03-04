@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/chess.dir/src/board_runner.cpp.obj"
-  "CMakeFiles/chess.dir/src/board_runner.cpp.obj.d"
+  "CMakeFiles/chess.dir/src/board_ui.cpp.obj"
+  "CMakeFiles/chess.dir/src/board_ui.cpp.obj.d"
   "CMakeFiles/chess.dir/src/boardstates.cpp.obj"
   "CMakeFiles/chess.dir/src/boardstates.cpp.obj.d"
   "CMakeFiles/chess.dir/src/main.cpp.obj"

@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <board_runner.h>
+#include <board_ui.h>
 #include <settings.h>
 
 sf::Vector2f getRealPos (float, float);

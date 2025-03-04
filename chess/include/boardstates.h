@@ -11,16 +11,14 @@ class Bd {
         sf::Vector2i start {};
         sf::Vector2i end {};
         char captured_piece = ' ';
-        std::bitset<4> prev_castle_state;
         bool isCastle {};
         bool isEnPassant {};
         bool isPromotion {};
-        
+        std::bitset<6> castle_state;
         inline bool operator== (const Bd::Move& other) const {
             return start == other.start
              && end == other.end;
         }
-        bool isNullMove () const {return start.x == 0 && start.y == 0 && end.x == 0 && end.y == 0;}
     };
 
     struct MoveData {
@@ -32,8 +30,9 @@ class Bd {
     std::vector<std::vector<char>> board {8, std::vector(8, ' ')};
     bool isWhiteTurn {true};
     
-    // KQkq are possible
-    std::bitset<4> castle_state {"1111"};
+    // (0) white king didn't move, (1) Q rook didn't move, (2) K rook didn't move, 
+    // (3) black king didn't move, (4) q rook didn't move, (5) k rook didn't move, 
+    std::bitset<6> castle_state {"111111"};
     sf::Vector2i ep_pawn {-1, -1};
 
     // constructors
@@ -47,10 +46,8 @@ class Bd {
     }*/
 
     // methods
-    std::vector<Move> getMoves (const sf::Vector2i& startPos, bool captures_only) const;
-    std::vector<Move> getAllMoves (bool captures_only) const;
-    void sortMoves (std::vector<Move>& moves) const;
-    
+    std::vector<Move> getMoves (const sf::Vector2i&) const;
+    std::vector<Move> getAllMoves () const;
     void loadFromFen (const std::string&);
     std::string getFen ();
     
@@ -60,7 +57,8 @@ class Bd {
     
     float static_eval () const;
 
-    MoveData minimax (int depth, float alpha, float beta, bool capture_only);
+    // todo add const
+    MoveData minimax (int depth, float alpha, float beta);
 
     void stonkfish ();
 

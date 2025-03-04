@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\rohan\OneDrive\Documents\GitHub\Chess\chess
+CMAKE_SOURCE_DIR = C:\Users\rohan\OneDrive\Documents\codee\cpp\chess
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\rohan\OneDrive\Documents\GitHub\Chess\chess\build
+CMAKE_BINARY_DIR = C:\Users\rohan\OneDrive\Documents\codee\cpp\chess\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\rohan\OneDrive\Documents\GitHub\Chess\chess\build\CMakeFiles C:\Users\rohan\OneDrive\Documents\GitHub\Chess\chess\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\rohan\OneDrive\Documents\codee\cpp\chess\build\CMakeFiles C:\Users\rohan\OneDrive\Documents\codee\cpp\chess\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\rohan\OneDrive\Documents\GitHub\Chess\chess\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\rohan\OneDrive\Documents\codee\cpp\chess\build\CMakeFiles 0
 .PHONY : all
 
 # The main codegen target
@@ -134,29 +134,29 @@ chess/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/build
 .PHONY : chess/fast
 
-src/board_runner.obj: src/board_runner.cpp.obj
-.PHONY : src/board_runner.obj
+src/board_ui.obj: src/board_ui.cpp.obj
+.PHONY : src/board_ui.obj
 
 # target to build an object file
-src/board_runner.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/board_runner.cpp.obj
-.PHONY : src/board_runner.cpp.obj
+src/board_ui.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/board_ui.cpp.obj
+.PHONY : src/board_ui.cpp.obj
 
-src/board_runner.i: src/board_runner.cpp.i
-.PHONY : src/board_runner.i
+src/board_ui.i: src/board_ui.cpp.i
+.PHONY : src/board_ui.i
 
 # target to preprocess a source file
-src/board_runner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/board_runner.cpp.i
-.PHONY : src/board_runner.cpp.i
+src/board_ui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/board_ui.cpp.i
+.PHONY : src/board_ui.cpp.i
 
-src/board_runner.s: src/board_runner.cpp.s
-.PHONY : src/board_runner.s
+src/board_ui.s: src/board_ui.cpp.s
+.PHONY : src/board_ui.s
 
 # target to generate assembly for a file
-src/board_runner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/board_runner.cpp.s
-.PHONY : src/board_runner.cpp.s
+src/board_ui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\chess.dir\build.make CMakeFiles/chess.dir/src/board_ui.cpp.s
+.PHONY : src/board_ui.cpp.s
 
 src/boardstates.obj: src/boardstates.cpp.obj
 .PHONY : src/boardstates.obj
@@ -239,9 +239,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... chess
-	@echo ... src/board_runner.obj
-	@echo ... src/board_runner.i
-	@echo ... src/board_runner.s
+	@echo ... src/board_ui.obj
+	@echo ... src/board_ui.i
+	@echo ... src/board_ui.s
 	@echo ... src/boardstates.obj
 	@echo ... src/boardstates.i
 	@echo ... src/boardstates.s
