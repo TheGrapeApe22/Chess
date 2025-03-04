@@ -5,7 +5,7 @@
 constexpr bool goofyEnPassant = false;
 constexpr bool freedom = true;
 extern int stonkfish_depth; // defined in main.cpp
-constexpr int max_stonkfish_calls = 50000000;
+constexpr int max_stonkfish_calls = 5000000;
 constexpr float stonkfish_randomization = 0.f; // 0.0005f;
 
 // Starting position rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
@@ -16,7 +16,7 @@ constexpr int square_size {128};
 constexpr float circle_scale {0.125};
 const sf::Vector2i board_shift {square_size*3/4, square_size*3/4};
 
-const std::string project_dir = "C:/Users/rohan/OneDrive/Documents/codee/cpp/chess";
+const std::string project_dir = "C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess";
 // const std::string project_dir = "../..";
 
 // add castle/en passant flags, work with undo
