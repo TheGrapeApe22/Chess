@@ -46,8 +46,8 @@ class Bd {
     }*/
 
     // methods
-    std::vector<Move> getMoves (const sf::Vector2i&) const;
-    std::vector<Move> getAllMoves () const;
+    void getMoves (const sf::Vector2i&, std::vector<Move>&) const;
+    void getAllMoves (std::vector<Move>&) const;
     void loadFromFen (const std::string&);
     std::string getFen ();
     

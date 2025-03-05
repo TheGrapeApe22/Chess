@@ -98,14 +98,13 @@ void Bd::print () {
     std::cout << getFen() << "\n" << castle_state << "\n";
 }
 
-std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
-    std::vector<Move> out {};
+void Bd::getMoves (const sf::Vector2i& startPos, std::vector<Move>& out) const {
 
     char type = board[startPos.x][startPos.y];
 
     if (type == ' ') {
         std::cout << "not a piece - Bd::getMoves()" << std::endl;
-        return out;
+        return;
     }
 
     std::vector <sf::Vector2i> relative_moves;
@@ -253,21 +252,17 @@ std::vector<Bd::Move> Bd::getMoves (const sf::Vector2i& startPos) const {
         // return legal endPos
         out.push_back(Move {startPos, endPos, capture, isCastle, isEnPassant, isPromotion});
     }
-
-    return std::move(out);
 }
 
-std::vector<Bd::Move> Bd::getAllMoves () const {
-    std::vector<Move> out {};
+void Bd::getAllMoves (std::vector<Move>& out) const {
     for (int y = 0; y < 8; y++) {
         for (int x = 0; x < 8; x++) {
             char c = board[x][y];
             if (c == ' ') continue;
             if (isupper(c) != isWhiteTurn) continue;
-            // todo 3/4/2025 getallmoves
+            getMoves(sf::Vector2i {x, y}, out);
         }
     }
-    return out;
 }
 
 void Bd::makeMove (const Move& m) {
@@ -398,7 +393,8 @@ float Bd::static_eval () const {
 
             if (c == ' ') continue;
             int multiplier = isupper(c) ? 1 : -1;
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
+            std::vector<Move> moves {};
+            getMoves(sf::Vector2i {x, y}, moves);
 
             // big weight
             float value = piece_values.at(tolower(c));
@@ -432,12 +428,6 @@ int numCalls = 0;
 int numPruned = 0;
 Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
     numCalls++;
-    
-    if (numCalls > max_stonkfish_calls) {
-        std::cout << "ABORTION" << std::endl;
-        // abort();
-        return MoveData {-999.f * (isWhiteTurn ? -1 : 1)};
-    }
 
     if (depth <= 0) return MoveData {static_eval()};
     
@@ -452,7 +442,8 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
             if (type == ' ') continue;
             if (isupper(type) != isWhiteTurn) continue;
             
-            std::vector<Move> moves = getMoves(sf::Vector2i {x, y});
+            std::vector<Move> moves {};
+            getMoves(sf::Vector2i {x, y}, moves);
 
             for (Move& move : moves) {
                 // check win

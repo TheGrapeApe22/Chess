@@ -116,7 +116,9 @@ namespace game {
                     if (numMoves % 2 == isupper(p->type) && !freedom) break;
 
                     // get legal moves
-                    legalMoves = current_board.getMoves(p->boardPos);
+                    legalMoves.clear();
+                    current_board.getMoves(p->boardPos, legalMoves);
+                    
                     if (legalMoves.size() == 0) break;
 
                     selected_piece = p;
