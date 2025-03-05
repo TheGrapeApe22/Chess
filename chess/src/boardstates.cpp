@@ -435,55 +435,47 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
     MoveData out {-200.f * multiplier};
     Move bestMove {};
 
+    std::vector<Move> moves {};
+    getAllMoves(moves);
+
     // for every piece
-    for (int y = 0; y < 8; y++) {
-        for (int x = 0; x < 8; x++) {
-            char type = board[x][y];
-            if (type == ' ') continue;
-            if (isupper(type) != isWhiteTurn) continue;
-            
-            std::vector<Move> moves {};
-            getMoves(sf::Vector2i {x, y}, moves);
+    for (Move& move : moves) {
+        // check win
+        if (tolower(move.captured_piece) == 'k') {
+            out.moveStack.push(move);
+            out.eval = -999.f * (isupper(move.captured_piece) ? 1 : -1);
+            return out;
+        }
 
-            for (Move& move : moves) {
-                // check win
-                if (tolower(move.captured_piece) == 'k') {
-                    out.moveStack.push(move);
-                    out.eval = -999.f * (isupper(move.captured_piece) ? 1 : -1);
-                    return out;
-                }
+        // move
+        makeMove(move);
 
-                // move
-                makeMove(move);
+        // recursion + eval
+        MoveData child = minimax(depth - 1, alpha, beta);
+        
+        if (child.eval * multiplier > out.eval * multiplier) {
+            out.eval = child.eval;
+            out = child;
+            bestMove = move;
+        }
 
-                // recursion + eval
-                MoveData child = minimax(depth - 1, alpha, beta);
-                
-                if (child.eval * multiplier > out.eval * multiplier) {
-                    out.eval = child.eval;
-                    out = child;
-                    bestMove = move;
-                }
+        undoMove(move);
 
-                undoMove(move);
-
-                // alpha-beta pruning
-                if (isWhiteTurn) {
-                    alpha = std::max(alpha, out.eval);
-                }
-                else {
-                    beta = std::min(beta, out.eval);
-                }
-                // prune if white reached a good position (alpha) but black can force a worse one (beta)
-                if (alpha >= beta) {
-                    numPruned++;
-                    break;
-                }
-            }
+        // alpha-beta pruning
+        if (isWhiteTurn) {
+            alpha = std::max(alpha, out.eval);
+        }
+        else {
+            beta = std::min(beta, out.eval);
+        }
+        // prune if white reached a good position (alpha) but black can force a worse one (beta)
+        if (alpha >= beta) {
+            numPruned++;
+            break;
         }
     }
-    out.moveStack.push(bestMove);
 
+    out.moveStack.push(bestMove);
     return out;
 }
 

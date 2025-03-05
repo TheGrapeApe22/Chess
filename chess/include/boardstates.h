@@ -57,7 +57,6 @@ class Bd {
     
     float static_eval () const;
 
-    // todo add const
     MoveData minimax (int depth, float alpha, float beta);
 
     void stonkfish ();
