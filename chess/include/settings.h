@@ -30,4 +30,12 @@ const std::unordered_map<char, float> piece_weights = {
     {'k', 0.1}    // no king development :((
 };
 
-// boardstates line 438
+/* iterative deepening
+  * make moves vector
+  * minimax(moves, depth 1), assign eval to each Move
+  * sort moves by eval
+  * minimax(moves, depth 2)
+  * sort
+  * depth 3
+  * sort
+*/

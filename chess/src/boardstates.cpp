@@ -3,6 +3,7 @@
 #include <settings.h>
 #include <unordered_map>
 #include <stdio.h>
+#include <chrono>
 
 void Bd::loadFromFen (const std::string& fen) {
     int x = 0;
@@ -426,7 +427,7 @@ std::string getCoord(sf::Vector2i p) {
 
 int numCalls = 0;
 int numPruned = 0;
-Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
+Bd::MoveData Bd::minimax (int depth, float alpha, float beta, std::vector<Move> moves={}, bool isFirstCall=true) {
     numCalls++;
 
     if (depth <= 0) return MoveData {static_eval()};
@@ -435,8 +436,9 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
     MoveData out {-200.f * multiplier};
     Move bestMove {};
 
-    std::vector<Move> moves {};
-    getAllMoves(moves);
+    if (moves.size() == 0) {
+        getAllMoves(moves);
+    }
 
     // for every piece
     for (Move& move : moves) {
@@ -450,13 +452,20 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
         // move
         makeMove(move);
 
+        std::vector<Move> moves2;
+        getAllMoves(moves2);
+
         // recursion + eval
-        MoveData child = minimax(depth - 1, alpha, beta);
+        MoveData child = minimax(depth - 1, alpha, beta, moves2, false);
         
         if (child.eval * multiplier > out.eval * multiplier) {
             out.eval = child.eval;
             out = child;
             bestMove = move;
+        }
+        
+        if (isFirstCall) {
+            move.eval = child.eval;
         }
 
         undoMove(move);
@@ -479,18 +488,30 @@ Bd::MoveData Bd::minimax (int depth, float alpha, float beta) {
     return out;
 }
 
+void Bd::minimax2 (int depth) {
+    std::vector<Move> moves = {};
+    getAllMoves(moves);
+
+}
+
 void Bd::stonkfish () {
     numCalls = 0;
     numPruned = 0;
-    
+    // timer start
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
     MoveData bestMove = minimax(stonkfish_depth, -999, 999);
+
+    // timer end
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms, ";
     
-    std::cout << numCalls << " calls, " << numPruned << " pruned: ";
+    std::cout << "\n" << numCalls << " calls, " << numPruned << " pruned\n";
     
     while (!bestMove.moveStack.empty()) {
         std::cout << "(" << getCoord(bestMove.moveStack.top().start) << ", "
             << getCoord(bestMove.moveStack.top().end) << ") ";
         bestMove.moveStack.pop();
     }
-    std::cout << "\ndeep eval: " << bestMove.eval << std::endl;
+    std::cout << "\ndeep eval: " << bestMove.eval << "\n\n";
 }

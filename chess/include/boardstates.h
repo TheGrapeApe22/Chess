@@ -19,6 +19,8 @@ class Bd {
             return start == other.start
              && end == other.end;
         }
+
+        float eval;
     };
 
     struct MoveData {
@@ -57,7 +59,8 @@ class Bd {
     
     float static_eval () const;
 
-    MoveData minimax (int depth, float alpha, float beta);
+    MoveData minimax (int depth, float alpha, float beta, std::vector<Move>, bool isFirstCall);
+    void minimax2(int);
 
     void stonkfish ();
 

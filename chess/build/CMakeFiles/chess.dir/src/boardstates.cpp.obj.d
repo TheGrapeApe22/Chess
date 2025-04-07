@@ -256,4 +256,10 @@ CMakeFiles/chess.dir/src/boardstates.cpp.obj: \
  C:/msys64/ucrt64/include/c++/13.2.0/bitset \
  C:/msys64/ucrt64/include/c++/13.2.0/iostream \
  C:/msys64/ucrt64/include/c++/13.2.0/istream \
- C:/msys64/ucrt64/include/c++/13.2.0/bits/istream.tcc
+ C:/msys64/ucrt64/include/c++/13.2.0/bits/istream.tcc \
+ C:/msys64/ucrt64/include/c++/13.2.0/chrono \
+ C:/msys64/ucrt64/include/c++/13.2.0/bits/chrono.h \
+ C:/msys64/ucrt64/include/c++/13.2.0/ratio \
+ C:/msys64/ucrt64/include/c++/13.2.0/cstdint \
+ C:/msys64/ucrt64/include/c++/13.2.0/limits \
+ C:/msys64/ucrt64/include/c++/13.2.0/bits/parse_numbers.h
