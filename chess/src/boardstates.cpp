@@ -427,7 +427,7 @@ std::string getCoord(sf::Vector2i p) {
 
 int numCalls = 0;
 int numPruned = 0;
-Bd::MoveData Bd::minimax (int depth, float alpha, float beta, std::vector<Move> moves={}, bool isFirstCall=true) {
+Bd::MoveData Bd::minimax (int depth, float alpha, float beta, std::vector<Move> moves, bool isFirstCall) {
     numCalls++;
 
     if (depth <= 0) return MoveData {static_eval()};

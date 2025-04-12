@@ -59,7 +59,7 @@ class Bd {
     
     float static_eval () const;
 
-    MoveData minimax (int depth, float alpha, float beta, std::vector<Move>, bool isFirstCall);
+    MoveData minimax (int depth, float alpha, float beta, std::vector<Move> moves={}, bool isFirstCall=true);
     void minimax2(int);
 
     void stonkfish ();
