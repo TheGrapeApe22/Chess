@@ -17,7 +17,7 @@ constexpr float circle_scale {0.125};
 const sf::Vector2u board_shift {square_size*3/4, square_size*3/4};
 
 //const std::string project_dir = "C:/Users/rohan/OneDrive/Documents/GitHub/Chess/chess";
-const std::string project_dir = "../..";
+const std::string project_dir = "..";
 
 // add castle/en passant flags, work with undo
 

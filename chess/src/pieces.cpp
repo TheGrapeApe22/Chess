@@ -45,6 +45,7 @@ void Piece::init () {
     //sprite.setTexture(texture);
     
     // configure sprite
+    sprite = sf::Sprite {texture};
     float pixels = static_cast<float>(texture.getSize().y);
     sprite.setScale(sf::Vector2f {square_size/pixels, square_size/pixels});
     this->resetPos();
