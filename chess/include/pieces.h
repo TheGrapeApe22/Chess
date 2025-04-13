@@ -13,7 +13,7 @@ class Piece {
     bool toggled {};
 
     sf::Texture texture {};
-    sf::Sprite sprite {};
+    sf::Sprite sprite {texture};
 
     sf::Vector2<int> boardPos {};
     sf::Vector2f realPos {};

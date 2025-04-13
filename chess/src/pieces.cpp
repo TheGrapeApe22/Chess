@@ -33,16 +33,20 @@ void Piece::init () {
     filename += tolower(lower);
     filename += ".png";
     
-    // load textures
-    if (!texture.loadFromFile(filename)) {
-        texture.create(1024, 1024);
-    }
+    texture = sf::Texture {filename};
+    // // load textures
+    // if (!texture.loadFromFile(filename)) {
+    //     std::cout << "texture not loaded. it's joever" << std::endl;
+    //     return;
+    // }
+    //texture.create(1024, 1024);
+    
     texture.setSmooth(true);
-    sprite.setTexture(texture);
+    //sprite.setTexture(texture);
     
     // configure sprite
     float pixels = static_cast<float>(texture.getSize().y);
-    sprite.setScale(square_size/pixels, square_size/pixels);
+    sprite.setScale(sf::Vector2f {square_size/pixels, square_size/pixels});
     this->resetPos();
 }
 

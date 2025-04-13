@@ -4,6 +4,7 @@
 #include <vector>
 #include <settings.h>
 #include <iostream>
+#include <algorithm>
 namespace game {
     int numMoves = 0;
 
@@ -22,7 +23,10 @@ namespace game {
     std::vector<Bd::Move> move_history;
 
     void init () {
-        font.loadFromFile(project_dir + "/assets/fonts/roboto-mono.ttf");
+        if (!font.openFromFile(project_dir + "/assets/fonts/roboto-mono.ttf")) {
+            std::cout << "font not loaded: board_ui.cpp\n";
+            return;
+        }
         
         // 64 squares
         for (int x = 0; x < 8; x++) {
@@ -33,11 +37,11 @@ namespace game {
 
         // text
         for (int i = 0; i < 8; i++) {
-            sf::Text letter {std::string{static_cast<char>('a' + i)}, font, 64};
+            sf::Text letter {font, std::string{static_cast<char>('a' + i)}, 64};
             letter.setPosition(getRealPos(i+0.5, 8) + sf::Vector2f {-16, 0});
             coords.push_back(letter);
 
-            sf::Text number {std::string{static_cast<char>('0' + 8-i)}, font, 64};
+            sf::Text number {font, std::string{static_cast<char>('0' + 8-i)}, 64};
             number.setPosition(getRealPos(-0.5, i) + sf::Vector2f {0, 32});
             coords.push_back(number);
         }
@@ -175,7 +179,7 @@ namespace game {
 
         for (Square& sq : squares) {
             // find square that piece is being dropped on
-            if (sq.rect.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+            if (sq.rect.getGlobalBounds().contains(sf::Vector2f {mousePos.x, mousePos.y})) {
                 // if legalMoves contains sq.boardPos
                 auto it = std::find(legalMoves.begin(), legalMoves.end(), Bd::Move {selected_piece->boardPos, sq.boardPos});
                 if (it != legalMoves.end()) {

@@ -1,43 +1,21 @@
-cmake_minimum_required(VERSION 3.22.1)
+cmake_minimum_required(VERSION 3.28)
+project(main LANGUAGES CXX)
 
-# project name
-set(EXEC_NAME "chess")
-project(${EXEC_NAME})
-
-# set(CMAKE_BUILD_TYPE Debug)
-
-# src
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-# compile to build/bin
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+include_directories(include)
+#link_directories(${CMAKE_SOURCE_DIR}/assets)
 
-# Use pkg-config to find SFML
-include(FindPkgConfig)
-pkg_check_modules(SFML REQUIRED sfml-graphics sfml-window sfml-system)
+include(FetchContent)
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.x
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(SFML)
 
-# make executable file
-add_executable(${EXEC_NAME} ${SOURCES})
-
-# Link SFML libraries to your executable
-target_link_libraries(${EXEC_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
-
-# Add SFML include directories (if needed)
-target_include_directories(${EXEC_NAME}  PRIVATE ${SFML_INCLUDE_DIRS})
-
-# include headers
-include_directories(${CMAKE_SOURCE_DIR}/include)
-link_directories(${CMAKE_SOURCE_DIR}/assets)
-
-#find_package(SFML 2.5 COMPONENTS system window graphics REQUIRED)
-#target_link_libraries(${EXEC_NAME} sfml-graphics)
-
-# this does nothing
-# link_directories("C:/libraries/SFML/build/lib")
-
-# include libraries
-# target_link_libraries(${EXEC_NAME}
-#     ${CMAKE_SOURCE_DIR}/lib/libsfml-graphics.a
-#     ${CMAKE_SOURCE_DIR}/lib/libsfml-window.a
-#     ${CMAKE_SOURCE_DIR}/lib/libsfml-system.a
-# )
+add_executable(main ${SOURCES})
+target_compile_features(main PRIVATE cxx_std_17)
+target_link_libraries(main PRIVATE SFML::Graphics SFML::Window SFML::System)
